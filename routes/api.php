@@ -18,3 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/', function(){ return 'helloworld';});
+
+
+Route::group(['middleware' => ['web']], function(){
+//    Route::resource('contents', 'Api\ContentsController');
+    Route::get('/auth/twitter/','Auth\TwitterController@getRedirectUrl');
+    Route::get('/auth/twitter/callback','Auth\TwitterController@handleTwitterCallback');
+
+});
+

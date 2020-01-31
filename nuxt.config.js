@@ -36,11 +36,17 @@ module.exports = {
     }
   },
   srcDir: 'front',
+  plugins: [
+    { src: "@/plugins/axios" }
+  ],
   modules: [
     '@nuxtjs/axios',
   ],
 
   axios: {
-  }
+    baseURL: "http://localhost",
+    credentials: true
+  },
+
 }
 
