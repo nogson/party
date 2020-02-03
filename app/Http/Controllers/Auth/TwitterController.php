@@ -36,6 +36,7 @@ class TwitterController extends Controller
             'email' => $socialUser->getEmail()
         ]);
 
+
         if ($user->exists) {
             Auth::login($user);
             return response()->json($user);

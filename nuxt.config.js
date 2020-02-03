@@ -41,12 +41,24 @@ module.exports = {
   ],
   modules: [
     '@nuxtjs/axios',
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/style-resources'
   ],
-
+  css: [
+    // プロジェクト内の SASS ファイル
+    { src: '@/assets/scss/style.scss', lang: 'scss' }
+  ],
   axios: {
     baseURL: "http://localhost",
     credentials: true
   },
+  styleResources: {
+    scss: [
+      '~/assets/scss/index.scss',
+      '~/assets/scss/util.scss'
+
+    ]
+  }
 
 }
 

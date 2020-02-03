@@ -14,10 +14,10 @@
 </template>
 
 <script>
-  import { mapMutations } from "vuex";
+  import {mapMutations} from "vuex";
 
   export default {
-   // middleware: "guest",
+    middleware: "guest",
     data() {
       return {
         failedMessage: null
@@ -36,19 +36,20 @@
           params: this.$route.query
         })
         .then(response => {
-          // this.setUser(response.user);
-          // this.setLoggedIn(true);
+          console.log(response)
+          this.setUser(response);
+          //this.setLoggedIn(true);
 
           this.$router.push("/home");
         })
         .catch(error => {
-          //this.failedMessage = error.message;
+          this.failedMessage = error.message;
         });
     },
 
-    // methods: mapMutations({
-    //   setUser: "auth/setUser",
-    //   setLoggedIn: "auth/setLoggedIn"
-    // })
+    methods: mapMutations({
+      setUser: "auth/setUser",
+      setLoggedIn: "auth/setLoggedIn"
+    })
   };
 </script>

@@ -13,7 +13,7 @@
 
 <script>
   export default {
-    // middleware: "guest",
+    middleware: "guest",
     asyncData({ app, error }) {
       return app.$axios
         .$get("http://localhost/api/auth/twitter/")
