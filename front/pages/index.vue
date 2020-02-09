@@ -1,11 +1,13 @@
 <template>
-  <div> AAA </div>
+  <div> AAA</div>
 </template>
 <script>
-  export default{
-    // async asyncData({app}){
-    //   const data = await app.$axios.$get('http://localhost/api')
-    //   return {data};
-    // }
+  export default {
+    middleware: 'guest',
+    created() {
+      if (this.$store.state.auth.user) {
+        console.log('okkk')
+      }
+    }
   }
 </script>

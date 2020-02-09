@@ -13,10 +13,9 @@
 
 <script>
   export default {
-    middleware: "guest",
     asyncData({ app, error }) {
       return app.$axios
-        .$get("http://localhost/api/auth/twitter/")
+        .$get("/api/auth/twitter/")
         .then(response => {
           return {
             redirect_url: response.redirect_url

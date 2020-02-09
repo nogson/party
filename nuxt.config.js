@@ -5,18 +5,18 @@ module.exports = {
   head: {
     title: 'front',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: 'Nuxt.js project'}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: {color: '#3B8070'},
   /*
   ** Build configuration
   */
@@ -24,7 +24,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
+    extend(config, {isDev, isClient}) {
       if (isDev && isClient) {
         config.module.rules.push({
           enforce: 'pre',
@@ -37,16 +37,17 @@ module.exports = {
   },
   srcDir: 'front',
   plugins: [
-    { src: "@/plugins/axios" }
+    {src: "@/plugins/axios"}
   ],
   modules: [
     '@nuxtjs/axios',
     'bootstrap-vue/nuxt',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    ['cookie-universal-nuxt', { parseJSON: false }]
   ],
   css: [
     // プロジェクト内の SASS ファイル
-    { src: '@/assets/scss/style.scss', lang: 'scss' }
+    {src: '@/assets/scss/style.scss', lang: 'scss'}
   ],
   axios: {
     baseURL: "http://localhost",

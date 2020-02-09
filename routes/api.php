@@ -13,16 +13,31 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/oauth/token/destroy', 'Auth\TwitterController@tokenDestroy');
+
+
+    Route::post('/oauth/token/destroy', 'UserController@tokenDestroy');
+
+
 });
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+//
+//Route::middleware('auth:api')->post('/oauth/token/destroy', 'Auth\TwitterController@tokenDestroy');
 
 
 
-Route::group(['middleware' => ['web']], function(){
+
+Route::group(['middleware' => ['web']], function () {
 //    Route::resource('contents', 'Api\ContentsController');
-    Route::get('/auth/twitter/','Auth\TwitterController@getRedirectUrl');
-    Route::get('/auth/twitter/callback','Auth\TwitterController@handleTwitterCallback');
+    Route::get('/auth/twitter/', 'Auth\TwitterController@getRedirectUrl');
+    Route::get('/auth/twitter/callback', 'Auth\TwitterController@handleTwitterCallback');
 
 });
 

@@ -13,6 +13,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class TwitterController extends Controller
 {
+
+
     public function getRedirectUrl()
     {
         $redirectUrl = Socialite::driver('twitter')->redirect()->getTargetUrl();
@@ -32,6 +34,8 @@ class TwitterController extends Controller
         //$socialUser = Socialite::driver('twitter')->user();
 
         $socialUser = Socialite::driver('twitter')->userFromTokenAndSecret(env('TWITTER_ACCESS_TOKEN'), env('TWITTER_ACCESS_TOKEN_SECRET'));
+
+
         $user = User::firstOrNew([
             'email' => $socialUser->getEmail()
         ]);
@@ -39,16 +43,35 @@ class TwitterController extends Controller
 
         if ($user->exists) {
             Auth::login($user);
-            return response()->json($user);
+            return [
+                'user'         => $user,
+                'access_token' => $user->createToken(null, ['*'])->accessToken,
+            ];
         }
 
         $user->name = $socialUser->getNickname();
         $user->email = $socialUser->getEmail();
+        $user->avatar = $socialUser->getAvatar();
         $user->twitter_id = $socialUser->getId();
+        $user->provider = 'twitter';
 
         $user->save();
 
         Auth::login($user);
-        return response()->json($user);
+
+        return [
+            'user'         => $user,
+            'access_token' => $user->createToken(null, ['*'])->accessToken,
+        ];
+
     }
+
+    public function tokenDestroy()
+    {
+
+        if(Auth::check()){
+            return Auth::user()->OauthAccessToken()->delete();
+        }
+    }
+
 }

@@ -1,20 +1,22 @@
 export const actions = {
   // ユーザーの訪問時（SSR）で呼ばれるメソッド
-  async nuxtServerInit({ commit }, { app }) {
+  async nuxtServerInit({ dispatch, state, commit }, { error }) {
+    const token = this.$cookies.get('token')
+    if (!token) {
+      return Promise.resolve()
+    }
 
-    await app.$axios
-      .$get("/user")
-      .then(response => {
-        console.log('dddd')
-
-        commit("auth/setUser", response.user);
-        commit("auth/setLoggedIn", true);
+    return dispatch('fetchUserByAccessToken', { token }).catch(e => {
+      return dispatch('auth/logout').catch(e => {
+        error({ message: e.message, statusCode: e.statusCode })
       })
-      .catch(() => {
-        console.log('okkkk')
+    })
+  },
+  fetchUserByAccessToken ({ commit, dispatch }, { token }) {
+    commit('auth/setToken', { token })
 
-        commit("auth/setUser", null);
-        commit("auth/setLoggedIn", false);
-      });
+    return this.$axios.$get('/api/user').then(user => {
+      commit('auth/setUser', { user })
+    })
   }
 }

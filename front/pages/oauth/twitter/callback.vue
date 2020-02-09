@@ -17,7 +17,6 @@
   import {mapMutations} from "vuex";
 
   export default {
-    middleware: "guest",
     data() {
       return {
         failedMessage: null
@@ -29,18 +28,15 @@
         return !this.failedMessage;
       }
     },
-
     mounted() {
       this.$axios
-        .$get("http://localhost/api/auth/twitter/callback", {
+        .$get("/api/auth/twitter/callback", {
           params: this.$route.query
         })
         .then(response => {
-          console.log(response)
-          this.setUser(response);
-          //this.setLoggedIn(true);
-
-          this.$router.push("/home");
+          this.setToken({token: response.access_token})
+          this.setUser({user: response.user})
+          this.$router.push("/");
         })
         .catch(error => {
           this.failedMessage = error.message;
@@ -49,6 +45,7 @@
 
     methods: mapMutations({
       setUser: "auth/setUser",
+      setToken: "auth/setToken",
       setLoggedIn: "auth/setLoggedIn"
     })
   };

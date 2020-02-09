@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <button @click="logout">ログアウト</button>
     <p>あなたについて教えて下さい。</p>
     <b-form @submit="onSubmit">
       <b-form-group
@@ -7,7 +8,7 @@
           label="お名前"
           label-for="input-1"
       >
-        <b-form-input v-model="text" placeholder="お名前"></b-form-input>
+        <b-form-input v-model="form.name" placeholder="お名前"></b-form-input>
       </b-form-group>
       <b-form-group
           id="input-group-1"
@@ -17,7 +18,7 @@
       >
         <b-form-textarea
             id="textarea"
-            v-model="text"
+            v-model="form.purpose"
             placeholder="仲間を集めてやりたいことを書いてください"
             rows="3"
             max-rows="6"
@@ -29,8 +30,8 @@
           label-for="input-1"
       >
         <div class="l_flex">
-          <b-form-input v-model="text" placeholder="あなたの得意なことを入力"></b-form-input>
-          <b-form-select v-model="form.selected" :options="selectBoxOptions"></b-form-select>
+          <b-form-input v-model="form.skill.label" placeholder="あなたの得意なことを入力"></b-form-input>
+          <b-form-select v-model="form.skill.level" :options="selectBoxOptions"></b-form-select>
         </div>
 
       </b-form-group>
@@ -44,11 +45,14 @@
 <script>
   export default {
     name: "home",
+    middleware: 'guest',
     data() {
       return {
-        text: '',
         form: {
-          selected:3
+          skill:{
+            label:'',
+            level:3
+          }
         },
         user: null,
         selectBoxOptions: [
@@ -60,18 +64,17 @@
         ]
       }
     },
-    mounted() {
-      this.user = this.$store.state.auth.user
-
-      this.$axios
-        .$get("/api/user")
-        .then(response => {console.log(response)})
-    },
     methods: {
       onSubmit(evt) {
         evt.preventDefault()
-        console.log('okkk')
-        // alert(JSON.stringify(this.form))
+        console.log(JSON.stringify(this.form))
+      },
+      logout(){
+        this.$axios
+          .$post('api/oauth/token/destroy').then(()=>{
+          this.$router.push('login')
+
+        })
       }
     }
   }
