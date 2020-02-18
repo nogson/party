@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class Skill extends Model
 {
     protected $fillable = [
-        'user_id', 'name', 'purpose'
+        'user_id','label', 'level'
     ];
 
 }

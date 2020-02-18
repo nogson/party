@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _75f9b4ce = () => interopDefault(import('../front/pages/friend.vue' /* webpackChunkName: "pages/friend" */))
 const _1f0fe5be = () => interopDefault(import('../front/pages/login.vue' /* webpackChunkName: "pages/login" */))
 const _06c3b5f4 = () => interopDefault(import('../front/pages/user.vue' /* webpackChunkName: "pages/user" */))
 const _0163c758 = () => interopDefault(import('../front/pages/oauth/twitter/callback.vue' /* webpackChunkName: "pages/oauth/twitter/callback" */))
@@ -26,6 +27,10 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/friend",
+    component: _75f9b4ce,
+    name: "friend"
+  }, {
     path: "/login",
     component: _1f0fe5be,
     name: "login"

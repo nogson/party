@@ -37,7 +37,7 @@ class TwitterController extends Controller
 
 
         $user = User::firstOrNew([
-            'email' => $socialUser->getEmail()
+            'twitter_id' => $socialUser->getId()
         ]);
 
 
@@ -50,7 +50,6 @@ class TwitterController extends Controller
         }
 
         $user->name = $socialUser->getNickname();
-        $user->email = $socialUser->getEmail();
         $user->avatar = $socialUser->getAvatar();
         $user->twitter_id = $socialUser->getId();
         $user->provider = 'twitter';

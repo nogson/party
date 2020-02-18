@@ -2,6 +2,7 @@ export const actions = {
   // ユーザーの訪問時（SSR）で呼ばれるメソッド
   async nuxtServerInit({ dispatch, state, commit }, { error }) {
     const token = this.$cookies.get('token')
+
     if (!token) {
       return Promise.resolve()
     }
@@ -13,6 +14,7 @@ export const actions = {
     })
   },
   fetchUserByAccessToken ({ commit, dispatch }, { token }) {
+
     commit('auth/setToken', { token })
 
     return this.$axios.$get('/api/user').then(user => {

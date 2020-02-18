@@ -41,9 +41,10 @@ module.exports = {
   ],
   modules: [
     '@nuxtjs/axios',
-    'bootstrap-vue/nuxt',
+    ['bootstrap-vue/nuxt',{ css: false }],
     '@nuxtjs/style-resources',
-    ['cookie-universal-nuxt', { parseJSON: false }]
+    ['cookie-universal-nuxt', { parseJSON: false }],
+    'nuxt-fontawesome'
   ],
   css: [
     // プロジェクト内の SASS ファイル
@@ -59,7 +60,18 @@ module.exports = {
       '~/assets/scss/util.scss'
 
     ]
+  },
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      },
+      {
+        set: '@fortawesome/free-brands-svg-icons',
+        icons: ['fab']
+      }
+    ]
   }
-
 }
 

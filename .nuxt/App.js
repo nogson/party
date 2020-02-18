@@ -9,15 +9,16 @@ import {
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
-import '../node_modules/bootstrap/dist/css/bootstrap.css'
-
 import '../node_modules/bootstrap-vue/dist/bootstrap-vue.css'
+
+import '../node_modules/@fortawesome/fontawesome-svg-core/styles.css'
 
 import '../front/assets/scss/style.scss'
 
+import _2d21a7c7 from '../front/layouts/base.vue'
 import _6f6c098b from '../front/layouts/default.vue'
 
-const layouts = { "_default": _6f6c098b }
+const layouts = { "_base": _2d21a7c7,"_default": _6f6c098b }
 
 export default {
   head: {"title":"front","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Nuxt.js project"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"}],"style":[],"script":[]},

@@ -17,12 +17,12 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
     Route::post('/oauth/token/destroy', 'Auth\TwitterController@tokenDestroy');
-
-
-    Route::post('/oauth/token/destroy', 'UserController@tokenDestroy');
-
+    Route::get('/users', 'UserController@users');
+    Route::get('/user/profile/{id}', 'ProfileController@index');
+    Route::post('/user/profile', 'ProfileController@create');
+    Route::put('/user/profile', 'ProfileController@update');
+    Route::delete('/user/profile', 'ProfileController@delete');
 
 });
 //Route::middleware('auth:api')->get('/user', function (Request $request) {

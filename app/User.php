@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class   User extends Authenticatable
+class User extends Authenticatable
 {
     use Notifiable;
     use HasApiTokens;
@@ -18,7 +18,7 @@ class   User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','handle','twitter_id','avatar'
+        'name', 'email', 'password', 'handle', 'twitter_id', 'avatar'
     ];
 
     /**
@@ -39,8 +39,18 @@ class   User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // TODO https://stackoverflow.com/questions/43318310/how-to-logout-a-user-from-api-using-laravel-passport
-    public function OauthAccessToken(){
+    public function OauthAccessToken()
+    {
         return $this->hasMany('App\OauthAccessToken');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+
+    public function skill()
+    {
+        return $this->hasMany('App\Skill');
     }
 }
