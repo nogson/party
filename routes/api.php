@@ -23,15 +23,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user/profile', 'ProfileController@create');
     Route::put('/user/profile', 'ProfileController@update');
     Route::delete('/user/profile', 'ProfileController@delete');
+    Route::post('/friend/request', 'FriendController@request');
 
 });
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-//
-//Route::middleware('auth:api')->post('/oauth/token/destroy', 'Auth\TwitterController@tokenDestroy');
-
-
 
 
 Route::group(['middleware' => ['web']], function () {

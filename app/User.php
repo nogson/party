@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Skill');
     }
+
+    public function friendRequest()
+    {
+        return $this->hasOne('App\FriendRequest','receive_user_id');
+    }
 }

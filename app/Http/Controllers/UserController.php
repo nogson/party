@@ -23,7 +23,7 @@ class UserController extends Controller
             $profile = $user->profile;
             $profile['skill'] = $user->skill;
             $profile['twitter_id'] = $user->twitter_id;
-
+            $profile['requested'] =isset($user->friendRequest);
             return $profile;
         });
 

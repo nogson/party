@@ -1,22 +1,66 @@
 <template>
   <section>
     <div class="friend_wrap">
-      <div class="friend" v-for="friend in friends" :key="friend.id">
+      <div class="friend" v-for="friend in friends" :key="friend.id" @click="showModal(friend)">
+        {{friend.requestd}}
         <div class="thumbnail"></div>
         <!--                <img src="~/assets/images/dummy.png" class="thumbnail"/>-->
-        <h2 class="friend_name"><a :href="link(friend.twitter_id)">{{friend.name}}
-          <font-awesome-icon :icon="['fab', 'twitter-square']"/>
-        </a></h2>
+        <h2 class="friend_name"><i v-if="friend.requested" class="requested"></i>{{friend.name}}
+        </h2>
         <p class="friend_purpose">{{friend.purpose}}</p>
         <div class="friend_skill">
           <radar-chart :data="getChartData(friend.skill)"/>
         </div>
-        <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-
       </div>
     </div>
-    <b-modal id="modal-1" title="BootstrapVue">
-      <p class="my-4">Hello from modal!</p>
+    <b-modal v-model="showFriendModal"
+             ref="friend-detail-modal" :title="selectedFriend.name">
+      <div class="modal_icon">
+        <a :href="link(selectedFriend.twitter_id)">
+          <font-awesome-icon class="fa-2x" :icon="['fab', 'twitter-square']"/>
+        </a>
+      </div>
+      <p>{{selectedFriend.purpose}}</p>
+      <template v-slot:modal-footer>
+        <div class="w-100">
+          <b-button
+              variant="primary"
+              size="md"
+              class="float-left"
+              :disabled="selectedFriend.requested"
+              @click="showRequestModal()"
+          >仲間に誘う
+          </b-button>
+          <b-button
+              variant="outline-primary"
+              size="md"
+              class="float-right"
+              @click="showFriendModal=false"
+          >閉じる
+          </b-button>
+        </div>
+      </template>
+    </b-modal>
+    <b-modal v-model="showFriendRequestModal"
+             ref="friend-request-modal" title="仲間に誘う">
+      <b-form-textarea
+          id="textarea"
+          v-model="message"
+          placeholder="Enter something..."
+          rows="3"
+          max-rows="6"
+      ></b-form-textarea>
+      <template v-slot:modal-footer>
+        <div class="w-100">
+          <b-button
+              variant="primary"
+              size="md"
+              class="float-right"
+              @click="requestFriend()"
+          >送信
+          </b-button>
+        </div>
+      </template>
     </b-modal>
   </section>
 </template>
@@ -31,19 +75,24 @@
     async asyncData({$axios, redirect}) {
       const friends = await $axios.$get('api/users')
       console.log(friends)
-
       return {friends}
     },
     data() {
       return {
-        friends: []
+        friends: [],
+        showFriendModal: false,
+        showFriendRequestModal: false,
+        selectedFriend: {
+          name: ''
+        },
+        message: 'よろしく願いします！'
       }
     },
     created() {
 
     },
     computed: {
-      link:()=> {
+      link: () => {
         return (id) => {
           return `https://twitter.com/${id}`
         }
@@ -72,6 +121,22 @@
             data: data
           }]
         }
+      },
+      showModal(friend) {
+        this.selectedFriend = friend
+        this.$refs['friend-detail-modal'].toggle()
+      },
+      showRequestModal() {
+        this.showFriendModal = false
+        this.$refs['friend-request-modal'].toggle()
+      },
+      requestFriend() {
+        this.$axios.$post('api/friend/request', {
+          receive_user_id: this.selectedFriend.user_id,
+          message: this.message
+        }).then(() => {
+          this.showFriendRequestModal = false
+        })
       }
     }
   }
@@ -127,5 +192,18 @@
     box-sizing: border-box;
   }
 
+  .modal_icon {
+    text-align: right;
+    margin-bottom: 8px;
+  }
+
+  .requested {
+    background: #ff9d00;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-right: 5px;
+  }
 
 </style>
