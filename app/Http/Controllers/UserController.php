@@ -24,6 +24,7 @@ class UserController extends Controller
             $profile['skill'] = $user->skill;
             $profile['twitter_id'] = $user->twitter_id;
             $profile['requested'] =isset($user->friendRequest);
+            $profile['accept_status'] = isset($user->friendRequest) ? $user->friendRequest->accept_status === 1 : false;
             return $profile;
         });
 

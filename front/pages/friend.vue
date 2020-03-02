@@ -5,7 +5,10 @@
         {{friend.requestd}}
         <div class="thumbnail"></div>
         <!--                <img src="~/assets/images/dummy.png" class="thumbnail"/>-->
-        <h2 class="friend_name"><i v-if="friend.requested" class="requested"></i>{{friend.name}}
+        <h2 class="friend_name">
+          <i v-if="friend.accept_status" class="accepted"></i>
+          <i v-else-if="friend.requested" class="requested"></i>
+          {{friend.name}}
         </h2>
         <p class="friend_purpose">{{friend.purpose}}</p>
         <div class="friend_skill">
@@ -14,12 +17,15 @@
       </div>
     </div>
     <b-modal v-model="showFriendModal"
-             ref="friend-detail-modal" :title="selectedFriend.name">
-      <div class="modal_icon">
+             ref="friend-detail-modal">
+      <template v-slot:modal-header>
+        <div>
+          <i v-if="selectedFriend.requested" class="requested"></i><span>{{selectedFriend.name}}</span>
+        </div>
         <a :href="link(selectedFriend.twitter_id)">
           <font-awesome-icon class="fa-2x" :icon="['fab', 'twitter-square']"/>
         </a>
-      </div>
+      </template>
       <p>{{selectedFriend.purpose}}</p>
       <template v-slot:modal-footer>
         <div class="w-100">
@@ -192,13 +198,17 @@
     box-sizing: border-box;
   }
 
-  .modal_icon {
-    text-align: right;
-    margin-bottom: 8px;
+  .requested {
+    background: #99e0c0;
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-right: 5px;
   }
 
-  .requested {
-    background: #ff9d00;
+  .accepted{
+    background: #16C6C0;
     width: 10px;
     height: 10px;
     border-radius: 10px;

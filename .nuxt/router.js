@@ -5,6 +5,7 @@ import scrollBehavior from './router.scrollBehavior.js'
 
 const _75f9b4ce = () => interopDefault(import('../front/pages/friend.vue' /* webpackChunkName: "pages/friend" */))
 const _1f0fe5be = () => interopDefault(import('../front/pages/login.vue' /* webpackChunkName: "pages/login" */))
+const _4c455f26 = () => interopDefault(import('../front/pages/notification.vue' /* webpackChunkName: "pages/notification" */))
 const _06c3b5f4 = () => interopDefault(import('../front/pages/user.vue' /* webpackChunkName: "pages/user" */))
 const _0163c758 = () => interopDefault(import('../front/pages/oauth/twitter/callback.vue' /* webpackChunkName: "pages/oauth/twitter/callback" */))
 const _8d495f2a = () => interopDefault(import('../front/pages/oauth/twitter/redirect.vue' /* webpackChunkName: "pages/oauth/twitter/redirect" */))
@@ -34,6 +35,10 @@ export const routerOptions = {
     path: "/login",
     component: _1f0fe5be,
     name: "login"
+  }, {
+    path: "/notification",
+    component: _4c455f26,
+    name: "notification"
   }, {
     path: "/user",
     component: _06c3b5f4,
