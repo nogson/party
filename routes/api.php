@@ -24,6 +24,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('/user/profile', 'ProfileController@update');
     Route::delete('/user/profile', 'ProfileController@delete');
     Route::post('/friend/request', 'FriendController@request');
+    Route::put('/friend/accept/', 'FriendController@acceptRequest');
+    Route::get('/notifications', 'NotificationController@index');
 
 });
 

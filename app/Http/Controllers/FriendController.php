@@ -17,7 +17,7 @@ class FriendController extends Controller
      */
     public function request(Request $request, Response $response)
     {
-        $friendRequest = new FriendRequest();
+        $friend_request = new FriendRequest();
 
         $data = [
             'send_user_id' => Auth::user()->id,
@@ -25,25 +25,50 @@ class FriendController extends Controller
             'message' => $request->message,
             'accept_status' => 0
         ];
-        $friendRequest->fill($data)->save();
+        $friend_request->fill($data)->save();
 
         $notification = new Notification();
 
         $notification_data = [
             'user_id' => $request->receive_user_id,
-            'send_user_id' => Auth::user()->id,
-            'title' => '仲間へのお誘いが来ました',
-            'message' => $request->message,
-            'type' => 'request'
+            'notification_id' => $friend_request->id,
+            'type' => 'request',
+            'read_state' => 0
         ];
 
-        $notification ->fill($notification_data)->save();
+        $notification->fill($notification_data)->save();
 
 
         return $response->status();
     }
 
-    public function createNotification() {
+    public function acceptRequest(Request $request, Response $response)
+    {
+        $friend_request = FriendRequest::where('send_user_id', $request->user_id)->where('receive_user_id', Auth::user()->id)->first();
+
+        if($friend_request->accept_status == 1){
+            return $response;
+        }
+
+        $friend_request->accept_status = 1;
+        $friend_request->save();
+
+        $notification = new Notification();
+
+        $notification_data = [
+            'user_id' => $friend_request->send_user_id,
+            'notification_id' => $friend_request->id,
+            'type' => 'accept_request',
+            'read_state' => 0
+        ];
+
+        $notification->fill($notification_data)->save();
+
+        return $response;
+    }
+
+    public function createNotification()
+    {
 
     }
 
